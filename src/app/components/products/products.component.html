@@ -16,6 +16,15 @@
       <td>{{ product.id }}</td>
       <td>{{ product.name }}</td>
       <td>{{ product.price }}</td>
+       <td>
+        <i *ngIf="product.promotion==true" class="bi bi-heart-fill text-success"></i>
+      </td>
+      <td>
+        <button (click)="handleSetPromotion(product)" [ngClass]="product.promotion==true?'btn-success':'btn-danger'" class="btn">
+          <span *ngIf="product.promotion==true">Promo On</span>
+          <span *ngIf="product.promotion==false">Promo Off</span>
+        </button>
+      </td>
       <td><!-- Icône corbeille -->
         <button class="btn btn-danger" (click)="handleDeleteProduct(product)">
           <i class="bi bi-trash"></i>
