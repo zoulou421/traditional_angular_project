@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductsService} from '../../services/products.service';
+import {IProduct} from '../../models/iproduct';
 
 @Component({
   selector: 'app-products',
@@ -8,13 +9,16 @@ import {ProductsService} from '../../services/products.service';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
- products!:Array<any>;
+ products!:IProduct[];//equivalent to Array<IProduct>
  errorMessage!:string;
 
  constructor(private productsService:ProductsService) {
  }
 
  ngOnInit():void{
+   this.handleGetAllProducts();
+ }
+ handleGetAllProducts():void{
    this.productsService.getProducts().subscribe({
      next: (data) => {
        this.products=data;
@@ -25,8 +29,21 @@ export class ProductsComponent implements OnInit {
    })
  }
 
-  handleDeleteProduct(product: any) {
+ /* handleDeleteProduct(product: any) {
     let index = this.products.indexOf(product);
     this.products.splice(index, 1);
+  }*/
+
+  handleDeleteProduct(product: IProduct) {
+    let conf=confirm('Are you sure you want to delete this product?');
+    if(!conf) return;
+    this.productsService.deleteProduct(product.id).subscribe({
+      next: (data:Boolean) => {
+        //this.handleGetAllProducts();
+        let i=this.products.indexOf(product);
+        //let index = this.products.findIndex(product => product.id == product.id);
+        this.products.splice(i, 1);
+      }
+    })
   }
 }
