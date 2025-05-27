@@ -11,6 +11,13 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class ProductsComponent implements OnInit {
  products!:IProduct[];//equivalent to Array<IProduct>
+
+  currentPage:number=0;
+  pageSize:number=5;
+  totalPages:number=0;
+
+  currentAction:string="all";
+
  errorMessage!:string;
  searchedFormProduct!:FormGroup;
 
@@ -18,11 +25,23 @@ export class ProductsComponent implements OnInit {
  }
 
  ngOnInit():void{
-   this.handleGetAllProducts();
    this.searchedFormProduct = this.fb.group({
      keyword:this.fb.control(null),
    })
+   //this.handleGetAllProducts();
+   this.handleGetPageProducts();
  }
+  handleGetPageProducts():void{
+    this.productsService.getPageProducts(this.currentPage,this.pageSize).subscribe({
+      next: (data) => {
+        this.products=data.products;
+        this.totalPages=data.totalPages;
+      },
+      error: (err) => {
+        this.errorMessage=err;
+      }
+    })
+  }
  handleGetAllProducts():void{
    this.productsService.getProducts().subscribe({
      next: (data) => {
@@ -65,7 +84,7 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  handleSearchedFormProduct() {
+  /*handleSearchedFormProduct() {
     let keyword=this.searchedFormProduct.value.keyword;
     this.productsService.searchProducts(keyword).subscribe({
       next: (data) => {
@@ -75,5 +94,29 @@ export class ProductsComponent implements OnInit {
         this.errorMessage=err;
       }
     })
+  }*/
+  handleSearchedFormProduct() {
+
+    this.currentAction="search";
+    this.currentPage=0;
+
+    let keyword=this.searchedFormProduct.value.keyword;
+    this.productsService.searchProducts(keyword,this.currentPage,this.pageSize).subscribe({
+      next: (data) => {
+        this.products=data.products;
+        this.totalPages=data.totalPages;
+      },
+      error: (err) => {
+        this.errorMessage=err;
+      }
+    })
+  }
+
+  gotoPage(i:number) {
+    this.currentPage = i;
+    if(this.currentAction == "all")
+      this.handleGetPageProducts();
+    else
+      this.handleSearchedFormProduct();
   }
 }
