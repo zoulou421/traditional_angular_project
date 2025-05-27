@@ -24,7 +24,7 @@ export class ProductsService {
   getProducts(): Observable<IProduct[]> { //IProduct[]is the same with:Array<IProduct>
     let rnd=Math.random();
     if(rnd<0.5)return throwError(()=>new Error("Connexion Error!"))
-    else return of(this.products);
+    else return of([...this.products]);//this.products
   }
   deleteProduct(id: number): Observable<boolean> {
     this.products = this.products.filter(product => product.id !== id);
