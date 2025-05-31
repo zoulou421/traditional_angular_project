@@ -15,7 +15,8 @@ import { AdminTemplateComponent } from './auth/admin-template/admin-template.com
     ProductsComponent,
     CustomersComponent,
     LoginComponent,
-    AdminTemplateComponent
+    AdminTemplateComponent,
+
   ],
   imports: [
     BrowserModule,
