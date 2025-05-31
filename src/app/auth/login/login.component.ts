@@ -31,7 +31,7 @@ errorMessage:any;
         next: (appUser) => {
           this.authenticationService.authenticateUser(appUser).subscribe({
             next: (data) => {
-              this.router.navigateByUrl('/products');
+              this.router.navigateByUrl('/admin/products');
             }
           });
         },
