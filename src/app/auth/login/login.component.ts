@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthenticationService} from '../../services/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,11 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class LoginComponent implements  OnInit {
 userFormGroup!:FormGroup;
-  constructor(private fb: FormBuilder) {}
+errorMessage:any;
+
+  constructor(private fb: FormBuilder,
+    private authenticationService: AuthenticationService, private router: Router
+  ) {}
 
   ngOnInit(): void {
      this.userFormGroup = this.fb.group({
@@ -19,6 +25,20 @@ userFormGroup!:FormGroup;
   }
 
   handleLogin() {
+      let username=this.userFormGroup.value.username;
+      let password=this.userFormGroup.value.password;
+      this.authenticationService.login(username,password).subscribe({
+        next: (appUser) => {
+          this.authenticationService.authenticateUser(appUser).subscribe({
+            next: (data) => {
+              this.router.navigateByUrl('/products');
+            }
+          });
+        },
+        error: (err) => {
+         this.errorMessage = err;
+        }
+      });
 
   }
 }
