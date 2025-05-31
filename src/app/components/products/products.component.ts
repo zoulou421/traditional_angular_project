@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductsService} from '../../services/products.service';
 import {IProduct} from '../../models/iproduct';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,8 @@ export class ProductsComponent implements OnInit {
  errorMessage!:string;
  searchedFormProduct!:FormGroup;
 
- constructor(private productsService:ProductsService,private fb:FormBuilder) {
+ constructor(private productsService:ProductsService,private fb:FormBuilder,
+             public authService:AuthenticationService) {
  }
 
  ngOnInit():void{
