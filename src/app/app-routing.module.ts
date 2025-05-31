@@ -5,6 +5,7 @@ import {CustomersComponent} from './components/customers/customers.component';
 import {LoginComponent} from './auth/login/login.component';
 import {AdminTemplateComponent} from './auth/admin-template/admin-template.component';
 import {AuthenticationGuard} from './guards/authentication.guard';
+import {NewProductComponent} from './components/new-product/new-product.component';
 
 const routes: Routes = [
   {path: 'login',component:LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
     children:[
       {path: 'products',component:ProductsComponent},
       {path: 'customers',component:CustomersComponent},
+      {path: 'newProduct',component:NewProductComponent},
     ]
   },
 

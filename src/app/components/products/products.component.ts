@@ -3,6 +3,7 @@ import {ProductsService} from '../../services/products.service';
 import {IProduct} from '../../models/iproduct';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -23,7 +24,8 @@ export class ProductsComponent implements OnInit {
  searchedFormProduct!:FormGroup;
 
  constructor(private productsService:ProductsService,private fb:FormBuilder,
-             public authService:AuthenticationService) {
+             public authService:AuthenticationService,
+             private router:Router) {
  }
 
  ngOnInit():void{
@@ -120,5 +122,9 @@ export class ProductsComponent implements OnInit {
       this.handleGetPageProducts();
     else
       this.handleSearchedFormProduct();
+  }
+
+  handleNewProducts() {
+     this.router.navigateByUrl('/admin/newProduct');
   }
 }

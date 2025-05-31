@@ -79,4 +79,10 @@ export class ProductsService {
     return of({page:page,size:size,totalPages:totalPages,products:pageProducts});
   }
 
+  public addNewProduct(product:IProduct):Observable<IProduct>{
+    product.id=UUID.UUID();
+    this.products.push(product);
+    return of(product);
+  }
+
 }
