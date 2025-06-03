@@ -1,6 +1,6 @@
 <div class="container mt-4">
 
-  <nav class="p-2 m-2">
+  <nav class="p-2 m-2" *ngIf="authService.hasRole('ADMIN')">
     <button class="btn btn-outline-info" (click)="handleNewProducts()">Add New Product</button>
   </nav>
   <ng-template #errors>
@@ -46,16 +46,12 @@
         </button>
       </td>
 
-      <td><!-- Icône crayon -->
-        <button class="btn btn-info">
+      <td *ngIf="authService.hasRole('ADMIN')"><!-- Icône crayon -->
+        <button class="btn btn-info" (click)="handleEditProduct(product)">
           <i class="bi bi-pencil"></i>
         </button>
       </td>
-      <td><!-- Icône "ajouter" -->
-        <button class="btn btn-outline-primary">
-          <i class="bi bi-plus-circle"></i>
-        </button>
-      </td>
+
     </tr>
     </tbody>
   </table>

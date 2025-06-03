@@ -21,6 +21,10 @@
       <label class="form-label">Promotion</label>
       <input type="checkbox" formControlName="promotion" class="form-check" />
     </div>
-    <button [disabled]="productFormGroup.invalid" class="btn btn-info" type="submit">Save</button>
+
+      <button class="btn btn-info" [disabled]="productFormGroup.invalid"  type="submit">
+        Add <i class="bi bi-plus-circle"></i>
+      </button>
+
   </form>
 </div>

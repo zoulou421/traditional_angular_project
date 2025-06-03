@@ -85,4 +85,15 @@ export class ProductsService {
     return of(product);
   }
 
+  public getProductById(id:string):Observable<IProduct>{
+    let p=this.products.find(product => product.id == id);
+    if(p == undefined) return throwError(() => new Error("Product not found"));
+    return of(p);
+  }
+
+  public updateProduct(product:IProduct):Observable<IProduct>{
+    this.products=this.products.map(p=>(p.id==product.id)?product:p);
+    return of(product);
+  }
+
 }
