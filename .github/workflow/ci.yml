@@ -1,0 +1,37 @@
+name: Build and Deploy Angular App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Angular App
+        run: npm run build -- --configuration=production
+
+      - name: Copy Files to Clean Folder
+        run: |
+          mkdir -p dist/my-tranditionnal-app-clean
+          rsync -a dist/my-tranditionnal-app/browser/ dist/my-tranditionnal-app-clean/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.MY_TRADI_APP }}
+          publish_dir: ./dist/my-tranditionnal-app-clean
+          # cname: ami-platform.com
